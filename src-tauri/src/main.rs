@@ -9,13 +9,12 @@ use reqwest;
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 #[tauri::command]
 fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
+    format!("{}! You've been greeted from Rust!", name)
 }
 
 #[tauri::command]
-fn _classification(name: &str) -> String {
-
-    format!("Hello, {}! You've been greeted from Rust!", name)
+fn classification(address: &str) -> String {
+    format!("{}", address)
 }
 
 async fn sa1_request(client: reqwest::Client) -> String {
@@ -57,7 +56,7 @@ async fn main() {
     let res: u64 = u64::from_str_radix(&sa1_request(client).await, 10).unwrap();
     println!("{}", sa1_lookup(res).unwrap());
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![greet])
+        .invoke_handler(tauri::generate_handler![greet, classification])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
